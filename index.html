@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Tebak Kata Cinta</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        color: #333;
+        padding: 30px;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 400px;
+        margin: auto;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        color: #ff4d6d;
+    }
+
+    .word {
+        font-size: 28px;
+        letter-spacing: 10px;
+        margin: 20px 0;
+    }
+
+    input {
+        padding: 8px;
+        font-size: 18px;
+        width: 50px;
+        text-align: center;
+    }
+
+    button {
+        padding: 8px 15px;
+        font-size: 16px;
+        margin-left: 10px;
+        background: #ff4d6d;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #e63950;
+    }
+
+    .info {
+        margin-top: 15px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>💖 Tebak Kata Cinta 💖</h1>
+    <p>Tebak kata yang berkaitan dengan cinta!</p>
+    <div class="word" id="wordDisplay"></div>
+
+    <input type="text" id="letterInput" maxlength="1">
+    <button onclick="guessLetter()">Tebak</button>
+
+    <div class="info">
+        <p>Sisa kesempatan: <span id="attempts">6</span></p>
+        <p id="message"></p>
+    </div>
+</div>
+
+<script>
+    const words = ["sayang", "cinta", "cantik", "loveee", "seneng", "setia"];
+    let selectedWord = words[Math.floor(Math.random() * words.length)];
+    let displayWord = Array(selectedWord.length).fill("_");
+    let attempts = 6;
+    let guessedLetters = [];
+
+    const wordDisplay = document.getElementById("wordDisplay");
+    const attemptsDisplay = document.getElementById("attempts");
+    const message = document.getElementById("message");
+
+    function updateDisplay() {
+        wordDisplay.textContent = displayWord.join(" ");
+    }
+
+    function guessLetter() {
+        const input = document.getElementById("letterInput");
+        const letter = input.value.toLowerCase();
+        input.value = "";
+
+        if (!letter.match(/[a-z]/) || letter.length !== 1) {
+            message.textContent = "Masukkan satu huruf saja!";
+            return;
+        }
+
+        if (guessedLetters.includes(letter)) {
+            message.textContent = "Huruf sudah ditebak!";
+            return;
+        }
+
+        guessedLetters.push(letter);
+
+        if (selectedWord.includes(letter)) {
+            for (let i = 0; i < selectedWord.length; i++) {
+                if (selectedWord[i] === letter) {
+                    displayWord[i] = letter;
+                }
+            }
+            message.textContent = "Benar! ❤️";
+        } else {
+            attempts--;
+            attemptsDisplay.textContent = attempts;
+            message.textContent = "Salah 😢";
+        }
+
+        updateDisplay();
+
+        if (!displayWord.includes("_")) {
+            message.textContent = "Selamat! Kamu menemukan jalan ke hatiku 💕";
+        }
+
+        if (attempts === 0) {
+            message.textContent = "Kamu kalah! Kata yang benar: " + selectedWord;
+        }
+    }
+
+    updateDisplay();
+</script>
+
+</body>
+</html>
