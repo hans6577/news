@@ -1,0 +1,55 @@
+import random
+import time
+
+def game_tebak_kata_cinta():
+    kata_cinta = ["sayang", "cinta", "cantik", "loveee", "seneng", "setia"]
+    kata_terpilih = random.choice(kata_cinta)
+    tebakan = ["_" for _ in range(len(kata_terpilih))]
+    
+    print("==== GAME TEBAK KATA CINTA ====")
+    print("Tebak kata yang berkaitan dengan cinta!")
+    print("Petunjuk: Kata ini memiliki", len(kata_terpilih), "huruf")
+    print(" ".join(tebakan))
+    
+    percobaan = 0
+    max_percobaan = 6
+    huruf_ditebak = []
+    
+    while "_" in tebakan and percobaan < max_percobaan:
+        huruf = input("\nMasukkan satu huruf: ").lower()
+        
+        if len(huruf) != 1 or not huruf.isalpha():
+            print("Masukkan satu huruf saja ya!")
+            continue
+            
+        if huruf in huruf_ditebak:
+            print("Kamu sudah menebak huruf ini!")
+            continue
+            
+        huruf_ditebak.append(huruf)
+        
+        if huruf in kata_terpilih:
+            print("Benar!")
+            for i in range(len(kata_terpilih)):
+                if kata_terpilih[i] == huruf:
+                    tebakan[i] = huruf
+        else:
+            print("Salah...")
+            percobaan += 1
+            
+        print("Kata saat ini:", " ".join(tebakan))
+        print(f"Kesempatan tersisa: {max_percobaan - percobaan}")
+    
+    if "_" not in tebakan:
+        print("\nSelamat! Kamu berhasil menebak kata:", kata_terpilih)
+        print("\nPesanku untukmu:")
+        time.sleep(1)
+        print(f"Seperti kamu menemukan setiap huruf dalam kata '{kata_terpilih}',")
+        print("Kamu juga telah menemukan jalan ke hatiku.")
+    else:
+        print("\nKamu kehabisan kesempatan.")
+        print("Kata yang benar adalah:", kata_terpilih)
+        print("Tapi tidak apa-apa, cintaku padamu tidak pernah kehabisan kesempatan! ❤️")
+
+game_tebak_kata_cinta()
+
